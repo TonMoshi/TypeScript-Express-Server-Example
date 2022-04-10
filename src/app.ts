@@ -1,10 +1,15 @@
 import express from "express";
+import config from "./util/config";
+import { checkAuth } from "./interceptor/checks";
 
 const app = express();
-const port = 3000;
-app.get("/", (req, res) => {
-  res.send("The sedulous hyena ate the antelope!");
-});
-app.listen(port, () => {
-  return console.log(`server is listening on ${port}`);
+
+import { router as gamesRoutes } from "./routes/games";
+
+app.use(checkAuth);
+
+app.use(gamesRoutes);
+
+app.listen(config.PORT, () => {
+  return console.log(`server is listening on ${config.PORT}`);
 });
